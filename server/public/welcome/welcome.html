@@ -1,0 +1,109 @@
+<!-- 
+  ----------------------------------------------------
+  ----------------------------------------------------
+  ----------------------------------------------------
+  ----------------------------------------------------
+  有个function叫
+  makehint()
+  去console里call一下它吧
+  ----------------------------------------------------
+  ----------------------------------------------------
+  ----------------------------------------------------
+  ----------------------------------------------------
+ -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css"
+      integrity="sha256-h20CPZ0QyXlBuAw7A+KluUYx/3pK+c7lYEpqLTlxjYQ="
+      crossorigin="anonymous"
+    />
+    <title>Document</title>
+    <style>
+      body {
+        background-color: black;
+        color: white;
+      }
+      h5 {
+        color: #333333;
+      }
+      #hint {
+        height: 500px;
+        margin-top: 1500px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        color: black;
+        /* border: 1px solid white; */
+      }
+      .hide {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container mt-5">
+      <h1>你想领取礼物吗？</h1>
+      <h2>可没那么容易yo</h2>
+      <br />
+      <i class="fas fa-smile-wink fa-5x"></i><br /><br />
+      <i class="fas fa-poop fa-3x"></i><br /><br />
+      <h3>通往礼物的秘密就在这个网页中</h3>
+      <h4>找找看呀</h4>
+      <h5>为什么背景是黑色的呀？</h5>
+
+      <div id="hint">
+        <p>连续点击我5次哦哦哦，我偷偷告诉你</p>
+        <div style="color: white;" id="hint-txt" class="hide">
+          还记得怎么下视频吗？ 试试看？
+        </div>
+      </div>
+    </div>
+    <script
+      src="https://code.jquery.com/jquery-3.5.0.min.js"
+      integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ="
+      crossorigin="anonymous"
+    ></script>
+    <script>
+      let clickCount = 0;
+      let timer;
+      $('#hint').click(function (e) {
+        clickCount++;
+        console.log(clickCount);
+
+        if (!timer) {
+          timer = setTimeout(() => {
+            if (clickCount >= 5) {
+              console.log($('#hint-btn'));
+              $('#hint-txt').removeClass('hide');
+            }
+            timer = null;
+            clickCount = 0;
+          }, 1000);
+        } else {
+        }
+      });
+
+      function makehint() {
+        console.log('真聪明');
+        console.log('密码是');
+        console.log(
+          '5oGt5Zac5L2g6Kej5byA5LqG5a+G56CB77yM5oOz6aKG5Y+W5L2g55qE56S854mp5ZCX77yfCuWug+WcqGh0dHBzOi8vaHVha3Vuc2hlbi5jb20vc2VjcmV0'
+        );
+        console.log('提醒你下');
+        console.log('那段乱码是base64 encode，你需要把它decode了哦');
+      }
+    </script>
+  </body>
+</html>

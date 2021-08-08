@@ -1,0 +1,26 @@
+version: '3.8'
+services:
+  backend:
+    image: node:12-alpine
+    restart: unless-stopped
+    volumes:
+      - ./server:/root/server
+    env_file:
+      - ./deploy/server.env
+    entrypoint: sh /root/server/start_server.sh
+  frontend:
+    image: huakunshen/nginx-certbot
+    restart: unless-stopped
+    ports:
+      - 80:80
+      - 443:443
+    entrypoint: sh /entrypoint.sh
+    volumes:
+      - ./frontend/build:/var/www/clipboard.huakunshen.com/html
+      - ./deploy/nginx/default:/etc/nginx/sites-available/default
+      - ./deploy/nginx/clipboard.huakunshen.com:/etc/nginx/sites-available/clipboard.huakunshen.com
+      - ./deploy/nginx/localhost:/etc/nginx/sites-available/localhost
+      - ./deploy/nginx/entrypoint.sh:/entrypoint.sh
+      - ./letsencrypt:/etc/letsencrypt
+    depends_on:
+      - 'backend'

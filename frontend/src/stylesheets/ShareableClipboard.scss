@@ -1,0 +1,30 @@
+@import './variables';
+.shareable-clipboard-page {
+  min-height: 100vh;
+  height: 100%;
+  background-color: $bg-dark-1;
+  color: white;
+  h1 {
+    margin-top: 0.5em;
+  }
+  .files-clipboard-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    text-align: center;
+    figurecaption: {
+      word-break: break-all;
+    }
+    a {
+      color: white;
+    }
+    .file-container {
+      max-width: 10em;
+      width: 10em;
+      padding: 1em;
+      i {
+        font-size: 80px;
+      }
+    }
+  }
+}

@@ -1,0 +1,9 @@
+.drag-n-drop-component {
+  input[type='file'] {
+    display: none;
+  }
+  .drop-region:hover {
+    cursor: pointer;
+    display: inline-block;
+  }
+}

@@ -1,0 +1,18 @@
+.clipboard-intro {
+  background-color: #333333;
+  color: white;
+  p,
+  strong {
+    font-family: Arial, Helvetica, sans-serif;
+  }
+  height: 100%;
+  min-height: 100vh;
+  .container {
+    padding-top: 4em;
+  }
+  padding-bottom: 2em;
+  img {
+    max-width: 100%;
+    margin-bottom: 1em;
+  }
+}

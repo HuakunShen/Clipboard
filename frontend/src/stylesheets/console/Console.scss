@@ -1,0 +1,11 @@
+@import '../variables';
+.console-page {
+  height: 100%;
+  background-color: $bg-color-dark;
+  min-height: 100vh;
+  color: white;
+  .container-xl {
+    padding-top: 1em;
+    border: 1px solid white;
+  }
+}

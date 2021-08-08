@@ -1,0 +1,131 @@
+@import './variables';
+.not-found-404-page {
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Old versions of Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none;
+  height: 100%;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-family: Arial, Helvetica, sans-serif;
+  overflow: hidden;
+  background: $bg-color-dark;
+  h1 {
+    font-size: 30vh;
+    font-weight: 700;
+    position: relative;
+    margin: -8vh 0 0;
+    padding: 0;
+  }
+
+  h1::after {
+    content: attr(data-h1);
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    color: transparent;
+    background: rgb(43, 50, 105);
+    background: linear-gradient(
+      90deg,
+      rgba(43, 50, 105, 1) 0%,
+      rgba(36, 112, 40, 1) 32%,
+      rgba(91, 106, 37, 1) 64%,
+      rgba(35, 90, 101, 1) 100%
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-size: 400%;
+    text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.25);
+    animation: animateTextBg 8s ease-in-out infinite;
+  }
+
+  h1 + p {
+    color: #d6d6d6;
+    font-size: 60px;
+    font-weight: 700;
+    max-width: 800px;
+    position: relative;
+  }
+
+  h1 + p::after {
+    content: attr(data-p);
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    color: transparent;
+    text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.5);
+    -webkit-background-clip: text;
+    -moz-background-clip: text;
+    background-clip: text;
+  }
+
+  @keyframes animateTextBg {
+    0% {
+      background-position: 0 0;
+    }
+
+    25% {
+      background-position: 100% 0;
+    }
+
+    50% {
+      background-position: 100% 100%;
+    }
+
+    75% {
+      background-position: 0 100%;
+    }
+
+    100% {
+      background-position: 0 0;
+    }
+  }
+  .btn {
+    width: 200px;
+    height: 60px;
+    background: none;
+    border: 4px solid;
+    color: #32f619;
+    font-weight: 700;
+    text-transform: uppercase;
+    cursor: pointer;
+    font-size: 16px;
+    position: relative;
+  }
+
+  .btn::before,
+  .btn::after {
+    content: '';
+    position: absolute;
+    width: 14px;
+    height: 4px;
+    background: $bg-color-dark;
+    transform: skewX(50deg);
+    transition: 0.4s linear;
+  }
+
+  .btn::before {
+    top: -4px;
+    left: 10%;
+  }
+
+  .btn::after {
+    bottom: -4px;
+    right: 10%;
+  }
+
+  .btn:hover::before {
+    left: 80%;
+  }
+
+  .btn:hover::after {
+    right: 80%;
+  }
+}
