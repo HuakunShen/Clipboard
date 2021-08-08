@@ -20,6 +20,6 @@ export const changeAuth = (auth_action, auth) => {
   }
 };
 
-export const setProjects = (actionType: string, projects: Array<Object>) => {
+export const setProjects = (actionType, projects) => {
   return { type: actionType, projects };
 };

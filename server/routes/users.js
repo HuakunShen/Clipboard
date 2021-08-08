@@ -13,7 +13,6 @@ router.post('/', (req, res) => {
     if (user) return res.status(400).json({ message: 'User already exists' });
     User.create(req.body)
       .then((user) => {
-        console.log(user);
         req.session.user = user._id;
         res.status(200).send('Registered ' + user.username);
       })
@@ -25,15 +24,13 @@ router.post('/', (req, res) => {
 
 //login
 router.post('/login', (req, res) => {
-  console.log(req.body);
-
   const username = req.body.username;
   const password = req.body.password;
   // User.findOne({username}).then()
   User.findByUsernamePassword(username, password)
     .then((user) => {
       if (!user) {
-        console.log('User not found');
+        console.warn('User not found');
         res.status(404).send('User not found');
       } else {
         req.session.user = user._id;
@@ -41,7 +38,7 @@ router.post('/login', (req, res) => {
       }
     })
     .catch((error) => {
-      console.log(error);
+      console.error(error);
       res.status(400).send(error);
     });
 });
@@ -61,26 +58,19 @@ router.get('/test-session', isAuthenticated, (req, res) => {
 });
 
 router.get('/load_auth', isAuthenticated, (req, res) => {
-  // console.log(req.params);
   User.findById(req.session.user)
     .select('-password -__v')
     .then((user) => {
       if (!user) {
-        console.log('something went wrong');
+        console.error('something went wrong');
         return res.send('something went wrong');
       }
-      // if (user.username == req.params.username) {
-      // console.log(user);
       return res.send(user);
-      // }
     });
 });
 
 // get all clipboards
 router.get('/clipboards', isAuthenticated, (req, res) => {
-  console.log('Getting Clipboards');
-  console.log(req.user);
-
   User.findById(req.user)
     .then((user) => {
       if (!user) return res.status(400).send('User not found');
@@ -93,23 +83,16 @@ router.get('/clipboards', isAuthenticated, (req, res) => {
 
 // post a clipboard
 router.patch('/clipboards', isAuthenticated, (req, res) => {
-  console.log(req.body);
-
   let { clipboards } = req.body;
-  console.log(clipboards);
-
   clipboards = clipboards.filter(
     (clipboard) => clipboard.type && clipboard.content
   );
-  console.log(clipboards);
-
   User.findByIdAndUpdate(
     req.user,
     { $push: { clipboards: { $each: clipboards } } },
     { new: true }
   )
     .then((user) => {
-      console.log(user.clipboards);
       res.send(user.clipboards);
     })
     .catch((err) => {
@@ -119,7 +102,6 @@ router.patch('/clipboards', isAuthenticated, (req, res) => {
 
 // add or change clipboard text
 router.patch('/clipboard-text', isAuthenticated, async (req, res) => {
-  console.log(req.body);
   const { text } = req.body;
   try {
     if (text._id) {
@@ -133,41 +115,30 @@ router.patch('/clipboard-text', isAuthenticated, async (req, res) => {
         },
         { new: true }
       );
-      console.log('clipboard: \n', user.clipboards);
-
       res.send(user.clipboards);
     } else {
       // add clipboard text
-      console.log('add clipboard text');
-
       const user = await User.findByIdAndUpdate(
         req.user,
         { $push: { clipboards: text } },
         { new: true }
       );
-      console.log('clipboard: \n', user.clipboards);
-
       res.send(user.clipboards[user.clipboards.length - 1]); // send back the newly added clipboard
     }
   } catch (error) {
-    console.log(error);
     res.status(500).send(error);
   }
 });
 
 //delete clipboard content
 router.delete('/clipboards', isAuthenticated, async (req, res) => {
-  console.log('delete: ', req.body);
   try {
     // await User.updateMany({ _id: req.user, 'clipboards._id': req.body.[0] });
     await User.findByIdAndUpdate(req.user, {
       $pull: { clipboards: { _id: { $in: req.body } } },
     });
-    console.log('Delete Successfully');
-
-    res.send('Delete Successfully');
   } catch (error) {
-    console.log(error);
+    console.error(error);
     res.status(500).send(error);
   }
 });

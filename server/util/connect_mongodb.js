@@ -16,6 +16,6 @@ mongoose
       );
     },
     (err) => {
-      console.log('Mongoose connection Error: ', err);
+      console.error('Mongoose connection Error: ', err);
     }
   );

@@ -22,21 +22,16 @@ router.get('/:id', (req, res) => {
       });
     })
     .catch((err) => {
-      console.log(err);
+      console.error(err);
       res.status(500).send(err);
     });
 });
 
 router.post('/', isAuthenticated, async (req, res) => {
   let { clipboards_id } = req.body;
-  console.log('body');
-
-  console.log(clipboards_id);
-
   clipboards_id = clipboards_id.filter((id) =>
     mongoose.Types.ObjectId.isValid(id)
   );
-  console.log(clipboards_id);
   try {
     const shareClipboard = new ShareClipboard({
       clipboards_id: clipboards_id,
@@ -44,20 +39,16 @@ router.post('/', isAuthenticated, async (req, res) => {
     });
     // shareClipboard.clipboards = shareClipboard.clipboards.concat([clipboards]);
     const doc = await shareClipboard.save();
-    console.log(doc);
     setTimeout(function () {
-      console.log('delete ', doc._id);
       ShareClipboard.findByIdAndDelete(doc._id)
-        .then((doc) => {
-          console.log('Successfully Deleted');
-        })
+        .then((doc) => {})
         .catch((err) => {
-          console.log(err);
+          console.error(err);
         });
     }, time.one_minute * 10);
     res.send(doc);
   } catch (error) {
-    console.log(error);
+    console.error(error);
     res.status(500).send(error);
   }
 });

@@ -5,30 +5,24 @@ const mongoose = require('mongoose');
 const { isAuthenticated } = require('../middlewares/auth');
 
 router.get('/all', async (req, res) => {
-  console.log('get all', Math.random());
-
   Project.find()
     .sort('-modified_at')
     .then((projects) => {
-      // console.log(projects);
       res.send(projects);
     })
     .catch((err) => {
-      console.log(err);
+      console.error(err);
       res.status(500).send(err);
     });
 });
 
 router.get('/search', async (req, res) => {
-  console.log(req.query);
   res.send(req.query);
 });
 
 // add a single project
 router.post('/', isAuthenticated, async (req, res) => {
   let { title, links, tags, description, star } = req.body;
-  console.log('add a project (post)');
-  console.log(req.body);
   // filter empty links
   links = links.filter((link) => link.title);
   const curr_date = new Date();
@@ -46,9 +40,8 @@ router.post('/', isAuthenticated, async (req, res) => {
       modified_at: curr_date,
     });
     res.send(project);
-    console.log(project);
   } catch (error) {
-    console.log(error);
+    console.error(error);
     res.status(500).send(error);
   }
 });
@@ -56,9 +49,6 @@ router.post('/', isAuthenticated, async (req, res) => {
 // edit a project
 router.patch('/', isAuthenticated, async (req, res) => {
   let { title, links, tags, description, _id, star } = req.body;
-  console.log('edit a project (patch)');
-  console.log(req.body);
-
   links = links.filter((link) => link.title);
   const curr_date = new Date();
   if (!title || tags.length === 0 || !description || !_id) {
@@ -71,15 +61,13 @@ router.patch('/', isAuthenticated, async (req, res) => {
       { new: true }
     );
     res.send(project);
-    console.log(project);
   } catch (error) {
-    console.log(error);
+    console.error(error);
     res.status(500).send(error);
   }
 });
 
 router.delete('/', isAuthenticated, (req, res) => {
-  console.log(req.body);
   if (!req.body.id) {
     return res.status(400).send('id cannot be null');
   }
@@ -94,7 +82,7 @@ router.delete('/', isAuthenticated, (req, res) => {
       res.send('Successfully Deleted');
     })
     .catch((err) => {
-      console.log(err.message);
+      console.error(err.message);
       res.status(500).send('Failed');
     });
 });

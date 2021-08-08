@@ -47,7 +47,7 @@ const ShareableClipboard = (props) => {
       const res = await Axios.get(`/api/clipboards/${props.match.params.id}`);
       setClipboards(res.data);
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 
@@ -114,8 +114,8 @@ const ShareableClipboard = (props) => {
       } else if (clipboard.type === 'text' && clipboard.content) {
         texts.push(clipboard);
       } else {
-        console.log('error, unexpected filetype');
-        console.log(clipboard.type);
+        console.error('error, unexpected filetype');
+        console.error(clipboard.type);
       }
     });
     setClipboardsFiles(files);

@@ -18,7 +18,6 @@ const DragNdrop = (props) => {
   useEffect(() => {}, []);
   const handleDragOver = (e) => {
     e.preventDefault();
-    console.log('over');
     setUploadIconClass(classes.onDragOver);
   };
   const handleDrop = (e) => {
@@ -32,18 +31,16 @@ const DragNdrop = (props) => {
     transferData(files);
   };
   const handleDragLeave = (e) => {
-    console.log('leave');
     setUploadIconClass('');
   };
   return (
-    <div className="drag-n-drop-component">
+    <div className='drag-n-drop-component'>
       <div
-        className="drop-region"
+        className='drop-region'
         onDrop={handleDrop}
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
         onClick={(e) => {
-          console.log('clicked');
           inputRef.current.click();
         }}
       >
@@ -52,7 +49,7 @@ const DragNdrop = (props) => {
           style={{ fontSize: 100, pointerEvents: 'none' }}
         />
       </div>
-      <input onChange={handleClickInput} ref={inputRef} type="file" multiple />
+      <input onChange={handleClickInput} ref={inputRef} type='file' multiple />
     </div>
   );
 };

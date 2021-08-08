@@ -42,12 +42,11 @@ class Signup extends Component {
       return;
     }
     try {
-      const res = await axios.post('/api/users/', {
+      await axios.post('/api/users/', {
         username,
         email,
         password,
       });
-      console.log(res.data);
       this.props.loadAuth();
       this.props.history.push('/');
     } catch (error) {
@@ -60,37 +59,37 @@ class Signup extends Component {
 
   render() {
     return (
-      <div className="signup-page">
+      <div className='signup-page'>
         <Navbar />
         {this.state.errMsg && (
-          <Alert variant="filled" severity="error">
+          <Alert variant='filled' severity='error'>
             {this.state.errMsg}
           </Alert>
         )}
         <Loader />
-        <div className="container">
-          <form className="box" onSubmit={this.submit}>
+        <div className='container'>
+          <form className='box' onSubmit={this.submit}>
             <h1>Sign Up</h1>
             <input
-              type="text"
-              name="username"
-              placeholder="Username"
+              type='text'
+              name='username'
+              placeholder='Username'
               ref={this.state.usernameRef}
             />
             <input
-              type="email"
-              name="email"
-              placeholder="Email"
+              type='email'
+              name='email'
+              placeholder='Email'
               ref={this.state.emailRef}
             />
             <input
-              type="password"
-              name="password"
-              placeholder="Password"
-              autoComplete="off"
+              type='password'
+              name='password'
+              placeholder='Password'
+              autoComplete='off'
               ref={this.state.passwordRef}
             />
-            <input type="submit" name="signup" value="Sign Up" />
+            <input type='submit' name='signup' value='Sign Up' />
           </form>
         </div>
       </div>

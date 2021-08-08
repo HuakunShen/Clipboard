@@ -126,7 +126,7 @@ export default connect(
           props.loadAuth();
         })
         .catch((err) => {
-          console.log(err);
+          console.error(err);
         });
     };
     const mobileMenuId = 'primary-search-account-menu-mobile';

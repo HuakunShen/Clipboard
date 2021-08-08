@@ -13,9 +13,6 @@ const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
 router.post('/files', isAuthenticated, upload.array('files'), (req, res) => {
-  console.log(req.body);
-  console.log(req.files);
-
   const promise_array = [];
   req.files.forEach((file) => {
     const params = {
@@ -30,24 +27,20 @@ router.post('/files', isAuthenticated, upload.array('files'), (req, res) => {
   });
   Promise.all(promise_array)
     .then((values) => {
-      console.log(values);
       const urls = values.map((value) => value.Location);
-      console.log(urls);
       req.files.forEach(
         (file, index) => (values[index].filename = file.originalname)
       );
       res.send(values);
     })
     .catch((err) => {
-      console.log(err);
+      console.error(err);
       res.status(500).send(err);
     });
 });
 
 router.delete('/files', isAuthenticated, (req, res) => {
   const keys = req.body.keys;
-  console.log(keys);
-  console.log(typeof keys);
   const params = {
     Bucket: process.env.Bucket,
     Delete: {
@@ -55,18 +48,13 @@ router.delete('/files', isAuthenticated, (req, res) => {
     },
     // Quiet: false,
   };
-  console.log(params);
-
   s3Client.deleteObjects(params, function (err, data) {
     if (err) {
-      //   console.log(err, err.stack);
-      console.log(err);
-
+      console.error(err);
       res.status(500).send('fail to delete');
     }
     // an error occurred
     else {
-      console.log(data); // successful response
       res.send('Deleted');
     }
   });
@@ -74,18 +62,15 @@ router.delete('/files', isAuthenticated, (req, res) => {
 
 router.delete('/file', isAuthenticated, (req, res) => {
   const Key = req.body.Key;
-  console.log(Key);
   const params = {
     Bucket: process.env.Bucket,
     Key: Key,
   };
-  console.log(params);
   s3Client.deleteObject(params, function (err, data) {
     if (err) {
-      console.log(err, err.stack);
+      console.error(err, err.stack);
       res.status(500).send('fail to delete');
     } else {
-      console.log(data);
       res.send('Deleted');
     }
   });

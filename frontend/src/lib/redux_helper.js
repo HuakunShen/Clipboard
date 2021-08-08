@@ -1,9 +1,6 @@
 import axios from 'axios';
 import { changeAuth } from '../redux/actions';
-import {
-  LOAD_AUTH,
-  CLEAR_AUTH,
-} from '../redux/actions/actionTypes';
+import { LOAD_AUTH, CLEAR_AUTH } from '../redux/actions/actionTypes';
 
 export const mapStateToProps = (state) => ({
   auth: state.auth,
@@ -20,22 +17,19 @@ export const loadAuth = (dispatch) => {
     })
     .catch((err) => {
       dispatch(changeAuth(LOAD_AUTH, { isAuthenticated: false }));
-      console.log(err);
+      console.error(err);
     });
 };
 
 export const logout = (dispatch) => {
   axios
     .post('/api/users/logout')
-    .then((res) => {
-      console.log(res.data);
-    })
+    .then((res) => {})
     .catch((err) => {
-      console.log('error: ', err);
+      console.error('error: ', err);
     });
   dispatch(changeAuth(CLEAR_AUTH, null));
 };
-
 
 export const mapDispatchToProps = (dispatch) => {
   return {

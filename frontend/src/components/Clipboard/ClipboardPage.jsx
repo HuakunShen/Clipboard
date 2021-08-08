@@ -127,7 +127,6 @@ const ClipboardPage = (props) => {
       setTextChecked([]);
       setFileChecked([]);
     }
-    console.log('clipboard page loaded');
     // eslint-disable-next-line
   }, [sharing]);
 
@@ -142,7 +141,6 @@ const ClipboardPage = (props) => {
   }, [selectAll]);
 
   const shareSelectedClipboards = async (e) => {
-    console.log(e.target);
     const clipboards_id = [];
     textChecked.forEach((checkbox, index) => {
       if (checkbox.state && clipboardsTexts[index]._id) {
@@ -158,7 +156,6 @@ const ClipboardPage = (props) => {
       clipboards_id,
     });
     const { _id } = res.data;
-    console.log(_id);
     const url = `https://huakunshen.com/clipboard/${_id}`;
     window.Clipboard.copy(url);
     setSnackbarMsg(
@@ -262,7 +259,7 @@ const ClipboardPage = (props) => {
       setClipboards(res.data);
       // setup checkboxes
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 
@@ -275,8 +272,8 @@ const ClipboardPage = (props) => {
       } else if (clipboard.type === 'text') {
         texts.push(clipboard);
       } else {
-        console.log('error, unexpected filetype');
-        console.log(clipboard.type);
+        console.error('error, unexpected filetype');
+        console.error(clipboard.type);
       }
     });
     setClipboardsFiles(files);
@@ -322,7 +319,6 @@ const ClipboardPage = (props) => {
           );
         },
       });
-      console.log(res.data);
 
       const files = res.data.map((file) => {
         return {
@@ -334,7 +330,6 @@ const ClipboardPage = (props) => {
           },
         };
       });
-      console.log(files);
 
       await Axios.patch('/api/users/clipboards', {
         clipboards: files,
@@ -345,7 +340,7 @@ const ClipboardPage = (props) => {
         setProgress(0);
       }, 5000);
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 
@@ -377,15 +372,12 @@ const ClipboardPage = (props) => {
 
   // ============================================================================
   const pasteText = (index) => {
-    console.log('pasteText');
     setUpdateTextIndexPaste(index);
   };
 
   // for pasting too, trigger paste after clipboard pasted
   // after clipboardsTexts changed, should try to update server/db
   useEffect(() => {
-    console.log('useEffect[updateTextIndexPaste]');
-    console.log(updateTextIndexPaste);
     if (updateTextIndexPaste !== null) {
       // it can be 0 (index)
       if (!navigator.clipboard) {
@@ -446,12 +438,11 @@ const ClipboardPage = (props) => {
         );
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 
   useEffect(() => {
-    console.log('useEffect: clipboardsTexts');
     // if pasted, updateTextIndex will be set to text index, should update value to server/db
     if (updateTextIndexPaste !== null) {
       // updateTextIndexPaste can be 0 (index)
@@ -494,7 +485,7 @@ const ClipboardPage = (props) => {
         // cannot loadClipboards, other unsaved ones will be lost, instead, just remove it from the front end
         setClipboardsTexts(clipboardsTexts.filter((text) => text._id !== _id));
       } catch (error) {
-        console.log(error);
+        console.error(error);
         setErrMsg('Fail to delete');
         setTimeout(() => {
           setErrMsg(null);
@@ -505,8 +496,6 @@ const ClipboardPage = (props) => {
 
   const deleteFile = async (index) => {
     // delete from s3 bucket first
-    console.log(clipboardsFiles[index]);
-
     if (sharing) {
       setSnackbarMsg('Please Exit Sharing Mode To Make Changes');
       setTimeout(() => {
@@ -527,7 +516,7 @@ const ClipboardPage = (props) => {
       }, 5000);
       loadClipboards();
     } catch (error) {
-      console.log(error);
+      console.error(error);
       setErrMsg('Fail to Delete');
       setTimeout(() => {
         setErrMsg(null);
@@ -537,8 +526,6 @@ const ClipboardPage = (props) => {
 
   const copyFileUrl = (index) => {
     const url = clipboardsFiles[index].content.Location;
-    console.log(url);
-    console.log(navigator.clipboard);
     window.Clipboard.copy(url);
     setSnackbarMsg('Copied to clipboard: ' + url);
   };

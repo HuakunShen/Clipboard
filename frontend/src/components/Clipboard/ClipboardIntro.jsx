@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import Navbar from '../Navbar';
 import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
@@ -16,9 +16,6 @@ const theme = createMuiTheme({
 });
 
 const ClipboardIntro = () => {
-  useEffect(() => {
-    console.log('clipboard-intro page loaded');
-  }, []);
   return (
     <ThemeProvider theme={theme}>
       <Navbar color='primary' position='fixed' />

@@ -36,7 +36,6 @@ const Signin = (props) => {
     })
       .then((res) => {
         props.loadAuth();
-        console.log('ready to switch to clipboard');
         setMsg(res.data);
         setLoggedIn(true);
       })
